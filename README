@@ -36,6 +36,19 @@ a megahertz = 1000000 hertz exactly.
 
 = Installing the plugin
 
+
+ script/plugin install git://github.com/Roadmaster/prefixed_attributes.git
+
+Of course this will only work if you're using Rails 2.1 or newer. If you're
+not, you have to manually clone the plugin. For this, within your rails
+app's directory:
+
+cd vendor/plugins
+ git clone git://github.com/Roadmaster/prefixed_attributes.git
+
+You can also submodule it:
+ git submodule prefixed_attributes
+
 = Using the plugin
 
 Suppose you have a model describing a computer, having attributes

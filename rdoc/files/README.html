@@ -56,7 +56,7 @@
     </tr>
     <tr class="top-aligned-row">
       <td><strong>Last Update:</strong></td>
-      <td>Fri Jun 27 18:11:52 -0500 2008</td>
+      <td>Fri Jun 27 18:50:47 -0500 2008</td>
     </tr>
     </table>
   </div>
@@ -110,6 +110,26 @@ megahertz = 1000000 hertz exactly.
  prefixed_attribute :hertz, :type =&gt; :si
 </pre>
 <h1>Installing the plugin</h1>
+<pre>
+ script/plugin install git://github.com/Roadmaster/prefixed_attributes.git
+</pre>
+<p>
+Of course this will only work if you&#8216;re using Rails 2.1 or newer. If
+you&#8216;re not, you have to manually clone the plugin. For this, within
+your rails app&#8216;s directory:
+</p>
+<p>
+cd vendor/plugins
+</p>
+<pre>
+ git clone git://github.com/Roadmaster/prefixed_attributes.git
+</pre>
+<p>
+You can also submodule it:
+</p>
+<pre>
+ git submodule prefixed_attributes
+</pre>
 <h1>Using the plugin</h1>
 <p>
 Suppose you have a model describing a computer, having attributes
