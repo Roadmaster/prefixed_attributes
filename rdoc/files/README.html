@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>File: README</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href=".././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+  <div id="fileHeader">
+    <h1>README</h1>
+    <table class="header-table">
+    <tr class="top-aligned-row">
+      <td><strong>Path:</strong></td>
+      <td>README
+      </td>
+    </tr>
+    <tr class="top-aligned-row">
+      <td><strong>Last Update:</strong></td>
+      <td>Fri Jun 27 18:11:52 -0500 2008</td>
+    </tr>
+    </table>
+  </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+    <div id="description">
+      <h1>PrefixedAttributes</h1>
+<p>
+Rails has a handy number_to_human_size method, but in order to use it, all
+your quantities need to be in non-scaled units, and it&#8216;s cumbersome
+to have your users typing 100 gigabyte amounts by hand. You&#8216;d
+normally have a &quot;bytes&quot; column in your records and add virtual
+attributes to your models. This plugin adds those attributes for you.
+</p>
+<p>
+Additionally, since we also add a setter method, you can, for instance,
+assign directly to the &quot;gibibytes&quot; attribute and mapping to the
+actual underlying &quot;bytes&quot; attribute is handled automatically.
+Thus, you can change references to the &quot;bytes&quot; field in your
+forms to &quot;gibibytes&quot; or whatever you want your users to actually
+input.
+</p>
+<p>
+The plugin adds a prefixed_attribute method to all your classes. Use it to
+mark an existing attribute on your class (even a non-AR one) like this:
+</p>
+<pre>
+ prefixed_attribute :bytes, :type =&gt; :binary
+ prefixed_attribute :hertz, :type =&gt; :si
+</pre>
+<p>
+binary prefixing adds kibibytes, mebibites, gibibites, and so on, all the
+way to exbibytes. Binary prefixes are power-of-1024-based (so a kibibyte =
+1024 bytes and a mebibite = 1024 kibibytes).
+</p>
+<p>
+SI prefixing adds all the international system prefixes, so for instance
+you can ask for picohertz, nanohertz, and so on, all the way to kilohertz,
+megahertz, terahertz, and so on. SI prefixes are power-of-10-based, so a
+megahertz = 1000000 hertz exactly.
+</p>
+<h1>Example</h1>
+<pre>
+ prefixed_attribute :bytes, :type =&gt; :binary
+ prefixed_attribute :hertz, :type =&gt; :si
+</pre>
+<h1>Installing the plugin</h1>
+<h1>Using the plugin</h1>
+<p>
+Suppose you have a model describing a computer, having attributes
+meters_from_here_to_computer, hertz_cpu_speed and bytes_ram. Turning these
+into prefixed attributes will look something like this:
+</p>
+<pre>
+ Class ComputerModel &lt; ActiveRecord::Base
+        validates_numericality_of :hertz_cpu_speed
+        validates_numericality_of :bytes_ram
+        validates_numericality_of :distance_from_here_to_computer
+
+        prefixed_attribute :bytes_ram, :type =&gt; :binary
+        prefixed_attribute :hertz_cpu_speed, :type =&gt; :si
+        prefixed_attribute :meters_from_here_to_computer, :type =&gt; :si
+ end
+</pre>
+<p>
+By doing this the class will sprout methods with which to set and get those
+attributes in a scaled way. You can now do stuff like:
+</p>
+<pre>
+        c = ComputerModel.new
+
+        c.mebibytes_ram = 1024 #this will set bytes_ram to 1073741824
+        c.gigahertz_cpu_speed = 2.8 #will set hertz_cpu_speed to 2800000000
+        c.meters_from_here_to_computer = 2500 #direct assignment
+</pre>
+<p>
+You can also now query your attributes like this:
+</p>
+<pre>
+        c.gibibytes_ram                     # will return 1.0
+        c.megahertz_cpu_speed               # will return 2800
+        c.kilometers_from_here_to_computer     # will return 2.5
+        c.millimeters_from_here_to_computer # will return 2500000
+</pre>
+<p>
+Copyright (c) 2008 Daniel Manrique (roadmr@tomechangosubanana.com),
+released under the MIT license
+</p>
+
+    </div>
+
+
+   </div>
+
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+
+
+
+
+      
+
+
+    <!-- if method_list -->
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

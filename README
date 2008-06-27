@@ -1,0 +1,74 @@
+= PrefixedAttributes
+
+Rails has a handy number_to_human_size method, but in order to use it, all
+your quantities need to be in non-scaled units, and it's cumbersome to have
+your users typing 100 gigabyte amounts by hand. You'd normally have a
+"bytes" column in your records and add virtual attributes to your models.
+This plugin adds those attributes for you.
+
+Additionally, since we also add a setter method, you can, for instance,
+assign directly to the "gibibytes" attribute and mapping to the actual
+underlying "bytes" attribute is handled automatically. Thus, you can
+change references to the "bytes" field in your forms to "gibibytes" or
+whatever you want your users to actually input.
+
+
+The plugin adds a prefixed_attribute method to all your classes. Use it to mark an
+existing attribute on your  class (even a non-AR one) like this:
+
+ prefixed_attribute :bytes, :type => :binary
+ prefixed_attribute :hertz, :type => :si
+
+binary prefixing adds kibibytes, mebibites, gibibites, and so on, all the
+way to exbibytes. Binary prefixes are power-of-1024-based (so a kibibyte = 1024 bytes and a mebibite = 1024 kibibytes).
+
+SI prefixing adds all the international system prefixes, so for instance
+you can ask for picohertz, nanohertz, and so on, all the way to kilohertz,
+megahertz, terahertz, and so on. SI prefixes are power-of-10-based, so
+a megahertz = 1000000 hertz exactly.
+
+
+
+= Example
+
+ prefixed_attribute :bytes, :type => :binary
+ prefixed_attribute :hertz, :type => :si
+
+= Installing the plugin
+
+= Using the plugin
+
+Suppose you have a model describing a computer, having attributes
+meters_from_here_to_computer, hertz_cpu_speed and bytes_ram. Turning
+these into prefixed attributes will look something like this:
+
+ Class ComputerModel < ActiveRecord::Base
+	validates_numericality_of :hertz_cpu_speed
+	validates_numericality_of :bytes_ram
+	validates_numericality_of :distance_from_here_to_computer
+
+	prefixed_attribute :bytes_ram, :type => :binary
+	prefixed_attribute :hertz_cpu_speed, :type => :si
+	prefixed_attribute :meters_from_here_to_computer, :type => :si
+ end
+
+By doing this the class will sprout methods with which to set and get those
+attributes in a scaled way. You can now do stuff like:
+	
+	c = ComputerModel.new
+
+	c.mebibytes_ram = 1024	#this will set bytes_ram to 1073741824
+	c.gigahertz_cpu_speed = 2.8 #will set hertz_cpu_speed to 2800000000
+	c.meters_from_here_to_computer = 2500 #direct assignment
+
+You can also now query your attributes like this:
+
+	c.gibibytes_ram                     # will return 1.0
+	c.megahertz_cpu_speed               # will return 2800
+	c.kilometers_from_here_to_computer	# will return 2.5
+	c.millimeters_from_here_to_computer # will return 2500000
+
+	
+
+
+Copyright (c) 2008 Daniel Manrique (roadmr@tomechangosubanana.com), released under the MIT license
